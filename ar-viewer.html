@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>View in AR</title>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #111;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  model-viewer {
+    width: 100%;
+    height: 100vh;
+    --poster-color: transparent;
+  }
+  #ar-button {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    color: #111;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  }
+  #ar-button:not([data-visible]) {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+  <!--
+    HOW THIS WORKS
+    - ios-src   -> your USDZ file. Safari on iPhone/iPad uses this to launch AR Quick Look.
+    - src       -> your GLB file. Chrome on Android uses this to launch Scene Viewer.
+    - ar-modes  -> tells model-viewer which AR systems to try, in order.
+    model-viewer automatically detects the platform and picks the right one.
+    Replace the file paths below with your actual model files.
+  -->
+  <model-viewer
+    id="ar-model"
+    src="Dominus.glb"
+    ios-src="Dominus.usdz"
+    alt="Dominus 3D model"
+    ar
+    ar-modes="webxr scene-viewer quick-look"
+    camera-controls
+    auto-rotate
+    shadow-intensity="1">
+    <button id="ar-button" slot="ar-button">
+      View in your space
+    </button>
+  </model-viewer>
+
+<script>
+  const mv = document.querySelector('#ar-model');
+  const btn = document.querySelector('#ar-button');
+  // Show the custom button once AR support is confirmed (avoids flashing on desktop)
+  mv.addEventListener('ar-status', (event) => {
+    console.log('AR status:', event.detail.status);
+  });
+</script>
+
+</body>
+</html>
