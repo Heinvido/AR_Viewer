@@ -31,9 +31,6 @@
     font-weight: 600;
     box-shadow: 0 4px 14px rgba(0,0,0,0.3);
   }
-  #ar-button:not([data-visible]) {
-    display: none;
-  }
 </style>
 </head>
 <body>
@@ -63,8 +60,6 @@
 
 <script>
   const mv = document.querySelector('#ar-model');
-  const btn = document.querySelector('#ar-button');
-  // Show the custom button once AR support is confirmed (avoids flashing on desktop)
   mv.addEventListener('ar-status', (event) => {
     console.log('AR status:', event.detail.status);
   });
